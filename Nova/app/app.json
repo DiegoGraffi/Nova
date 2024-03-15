@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "Nova",
+    "slug": "Nova",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["assets/*", "assets/fonts/*"],
+    "ios": {
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.diegograffigna.Nova"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "83427635-bf85-4eee-b237-e31fa5eda26f"
+      }
+    },
+    "owner": "diegograffigna",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/83427635-bf85-4eee-b237-e31fa5eda26f"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["/assets/fonts/Montserrat.ttf"]
+        }
+      ],
+      "expo-secure-store"
+    ]
+  }
+}
