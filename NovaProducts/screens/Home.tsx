@@ -14,6 +14,7 @@ import Navbar from "../components/Navbar";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { useState, Suspense } from "react";
 import { fetchProductByCode } from "../lib/api";
+import ProductInfo from "../components/ProductInfo";
 
 export default function Home() {
   const [code, setCode] = useState("");
@@ -100,51 +101,11 @@ function ProductFinder(props: ProductFinderProps) {
     },
   });
 
-  if (data.data === null) {
+  if (!data.data) {
     return <ProductNotFound />;
   }
-
-  const talles = data.data.precio;
-  const primerPrecio = talles[0];
-  const [selectedSize, setSelectedSize] = useState(primerPrecio.TALLE);
-
-  const precioSeleccionado = talles.find((item) => item.TALLE === selectedSize);
-
-  const articulo = data.data.articulo;
-
-  const sucursales = data.data.stock
-    .filter((item) => item.TALLE === selectedSize)
-    .map((item) => ({
-      sucursal: item.NDEPOSITO,
-      stock: parseInt(item.STOCK),
-    }));
-
-  const stockTotal = data.data.stock
-
-    .filter((item) => item.TALLE === selectedSize)
-    .reduce((total, item) => parseInt(item.STOCK) + total, 0);
-
-  return (
-    <>
-      <View style={styles.background}></View>
-      <View style={styles.dataContainer}>
-        <GeneralData
-          name={articulo.NOMBRE}
-          brand={articulo.NMARCA}
-          price={precioSeleccionado.PREC1}
-        />
-        <AditionalData data={data} />
-        {data.data.articulo.TIPOTALLE === "02" && (
-          <Talles
-            selectedSize={selectedSize}
-            setSelectedSize={setSelectedSize}
-            talles={talles}
-          />
-        )}
-        <Table sucursales={sucursales} total={stockTotal} />
-      </View>
-    </>
-  );
+  console.log(data);
+  return <ProductInfo data={data.data} />;
 }
 
 function ProductNotFound() {
@@ -194,20 +155,5 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     backgroundColor: "#ececec",
-  },
-  background: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#2a2c2f",
-  },
-  dataContainer: {
-    backgroundColor: "#ececec",
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    height: "100%",
-    gap: 15,
   },
 });
