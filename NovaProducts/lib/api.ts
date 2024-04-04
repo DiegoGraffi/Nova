@@ -30,7 +30,7 @@ export type ProductData = {
 };
 
 export async function fetchProductByCode(code: string) {
-  const endpoint = `http://149.100.142.117:/apinovades/appnova/consultaArticuloStock.php?_r=json&_m=homo&_e=66&_cb=${code}`;
+  const endpoint = `http://149.100.142.117:/apinova/appnova/consultaArticuloStock.php?_r=json&_m=prod&_e=66&_cb=${code}`;
   const response = await fetch(endpoint);
   const json: ProductByCodeResponse = await response.json();
   return json;

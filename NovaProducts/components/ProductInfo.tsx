@@ -8,17 +8,16 @@ import { useState } from "react";
 
 type Props = {
   data: ProductData;
+  code: string;
 };
 
-export default function ProductInfo({ data }: Props) {
+export default function ProductInfo({ data, code }: Props) {
   const talles = data.precio;
   const primerPrecio = talles[0];
   const [selectedSize, setSelectedSize] = useState(primerPrecio.TALLE);
-
   const precioSeleccionado = talles.find((item) => item.TALLE === selectedSize);
 
   const articulo = data.articulo;
-
   const sucursales = data.stock
     .filter((item) => item.TALLE === selectedSize)
     .map((item) => ({
@@ -39,8 +38,8 @@ export default function ProductInfo({ data }: Props) {
           name={articulo.NOMBRE}
           brand={articulo.NMARCA}
           price={precioSeleccionado.PREC1}
+          codigo={code}
         />
-        <AditionalData data={data} />
         {data.articulo.TIPOTALLE === "02" && (
           <Talles
             selectedSize={selectedSize}

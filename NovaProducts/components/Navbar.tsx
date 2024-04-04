@@ -1,5 +1,5 @@
 import { Image, TextInput, TouchableOpacity, View } from "react-native";
-import { Search } from "lucide-react-native";
+import { Search, X } from "lucide-react-native";
 import { useState } from "react";
 
 export default function Navbar({ setCode }) {
@@ -7,6 +7,10 @@ export default function Navbar({ setCode }) {
 
   const handleSearch = () => {
     setCode(inputValue);
+  };
+
+  const handleDelete = () => {
+    setInputValue("");
   };
 
   return (
@@ -25,6 +29,7 @@ export default function Navbar({ setCode }) {
           padding: 15,
           justifyContent: "center",
           alignItems: "center",
+          width: "20%",
         }}
       >
         <Image
@@ -39,6 +44,7 @@ export default function Navbar({ setCode }) {
             paddingVertical: 10,
             padding: 10,
             borderRadius: 10,
+            fontSize: 18,
           }}
           placeholder="Ingresar código"
           inputMode="numeric"
@@ -47,9 +53,22 @@ export default function Navbar({ setCode }) {
           maxLength={13}
         />
       </View>
-      <TouchableOpacity style={{ paddingRight: 15 }} onPress={handleSearch}>
-        <Search color={"white"} />
-      </TouchableOpacity>
+      <View
+        style={{
+          paddingRight: 15,
+          flexDirection: "row",
+          justifyContent: "space-around",
+          width: "20%",
+          gap: 10,
+        }}
+      >
+        <TouchableOpacity onPress={handleDelete}>
+          <X color={"white"} size={32} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleSearch}>
+          <Search color={"white"} size={32} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

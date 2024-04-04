@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "ar.com.novagestion.NovaConsulta"
     },
     "web": {
       "favicon": "./assets/favicon.png"

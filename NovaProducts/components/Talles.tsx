@@ -19,7 +19,7 @@ export default function Talles({
   setSelectedSize,
 }: Props) {
   return (
-    <View style={{ gap: 10 }}>
+    <View style={{ gap: 10, width: "100%" }}>
       <Text style={{ color: "#2a2c2f", fontSize: 16, fontWeight: "300" }}>
         Talles
       </Text>

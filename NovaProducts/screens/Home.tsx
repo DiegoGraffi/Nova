@@ -1,17 +1,14 @@
 import {
   Image,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
+  SafeAreaView,
 } from "react-native";
-import GeneralData from "../components/GeneralData";
-import AditionalData from "../components/AditionalData";
-import Talles from "../components/Talles";
-import Table from "../components/Table";
+
 import Navbar from "../components/Navbar";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState, Suspense } from "react";
 import { fetchProductByCode } from "../lib/api";
 import ProductInfo from "../components/ProductInfo";
@@ -20,35 +17,37 @@ export default function Home() {
   const [code, setCode] = useState("");
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{}}>
-      <Navbar setCode={setCode} />
-      {code !== "" ? (
-        <Suspense
-          fallback={
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 200,
-              }}
-            >
-              <Text>Cargando</Text>
-            </View>
-          }
-        >
-          <ProductFinder code={code} />
-        </Suspense>
-      ) : (
-        <Welcome />
-      )}
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView style={styles.container} contentContainerStyle={{}}>
+        <Navbar setCode={setCode} />
+        {code !== "" ? (
+          <Suspense
+            fallback={
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 200,
+                }}
+              >
+                <Text>Cargando</Text>
+              </View>
+            }
+          >
+            <ProductFinder code={code} />
+          </Suspense>
+        ) : (
+          <Welcome />
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 function Welcome() {
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         justifyContent: "center",
@@ -84,7 +83,7 @@ function Welcome() {
           Ingrese un código en la barra de búsqueda para comenzar
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -104,13 +103,12 @@ function ProductFinder(props: ProductFinderProps) {
   if (!data.data) {
     return <ProductNotFound />;
   }
-  console.log(data);
-  return <ProductInfo data={data.data} />;
+  return <ProductInfo data={data.data} code={code} />;
 }
 
 function ProductNotFound() {
   return (
-    <View
+    <SafeAreaView
       style={{
         flexDirection: "column",
         justifyContent: "center",
@@ -146,7 +144,7 @@ function ProductNotFound() {
           El código de producto no coincide con un producto en existencia
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
