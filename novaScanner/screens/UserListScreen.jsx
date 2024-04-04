@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
 
-export default function SplashScreen() {
+export default function UserList() {
   return (
     <View>
-      <Text>SplashScreen</Text>
+      <Text>sdlkfjdslkfj</Text>
     </View>
   );
 }

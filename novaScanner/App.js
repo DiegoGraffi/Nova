@@ -12,7 +12,7 @@ export default function App() {
       }}
     >
       <Navigation />
-      <StatusBar style="auto" backgroundColor="white" />
+      <StatusBar style="light" backgroundColor="black" />
     </SafeAreaView>
   );
 }
@@ -20,6 +20,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ececec",
+    backgroundColor: "#fff",
   },
 });

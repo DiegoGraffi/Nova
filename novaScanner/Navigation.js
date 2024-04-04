@@ -26,6 +26,7 @@ function TabGroup() {
         component={HomeScreen}
         options={{
           tabBarIcon: (opts) => <Home color={opts.color} size={opts.size} />,
+          headerShown: false,
         }}
       />
       <Tab.Screen
