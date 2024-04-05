@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Nova Consulta",
-    "slug": "Nova Consulta",
+    "slug": "nova-consulta",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,21 +19,33 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.matestudio.NovaProducts"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "ad27526a-7781-4b1a-af5d-fd9e2b0e577e"
-      }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
       "url": "https://u.expo.dev/ad27526a-7781-4b1a-af5d-fd9e2b0e577e"
-    }
+    },
+    "owner": "matestudio",
+    "extra": {
+      "eas": {
+        "projectId": "0e76d4f9-e06e-48db-857d-75b759eaf8e9"
+      }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
   }
 }
