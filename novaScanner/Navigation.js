@@ -1,13 +1,34 @@
 // Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 
 // Screens
 import HomeScreen from "./screens/HomeScreen";
 import USerListScreen from "./screens/UserListScreen";
+import PhoneScreen from "./screens/PhoneScreen";
 
 // Icons
 import { Home, List } from "lucide-react-native";
+
+// Stack Telefono
+const Stack = createStackNavigator();
+
+function StackTelefono() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Carga de Cliente"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: (opts) => <Home color={opts.color} size={opts.size} />,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="Telefono" component={PhoneScreen} />
+    </Stack.Navigator>
+  );
+}
 
 // Tab
 const Tab = createBottomTabNavigator();
@@ -22,18 +43,18 @@ function TabGroup() {
       })}
     >
       <Tab.Screen
-        name="Carga"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: (opts) => <Home color={opts.color} size={opts.size} />,
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="UserList"
+        name="Listado de Clientes"
         component={USerListScreen}
         options={{
           tabBarIcon: (opts) => <List color={opts.color} size={opts.size} />,
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={StackTelefono}
+        options={{
+          tabBarIcon: (opts) => <Home color={opts.color} size={opts.size} />,
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

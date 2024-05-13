@@ -17,15 +17,22 @@
       "infoPlist": {
         "NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera."
       },
-      "bundleIdentifier": "com.novaScanner"
+      "bundleIdentifier": "com.novaScanner",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.CAMERA"],
-      "package": "com.novaScanner"
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.novaScanner",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -44,6 +51,9 @@
       "eas": {
         "projectId": "b753706f-059e-4755-999b-e206c2d5cffe"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b753706f-059e-4755-999b-e206c2d5cffe"
     }
   }
 }

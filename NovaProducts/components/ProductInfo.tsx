@@ -4,7 +4,7 @@ import GeneralData from "./GeneralData";
 import AditionalData from "./AditionalData";
 import Talles from "./Talles";
 import Table from "./Table";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Props = {
   data: ProductData;
@@ -15,6 +15,10 @@ export default function ProductInfo({ data, code }: Props) {
   const talles = data.precio;
   const primerPrecio = talles[0];
   const [selectedSize, setSelectedSize] = useState(primerPrecio.TALLE);
+
+  // cuando cambie el codigo de producto reseteamos el talle inicial (primer talle en la lista)
+  useEffect(() => setSelectedSize(primerPrecio.TALLE), [data.articulo.CODIGO]);
+
   const precioSeleccionado = talles.find((item) => item.TALLE === selectedSize);
 
   const articulo = data.articulo;
@@ -33,11 +37,12 @@ export default function ProductInfo({ data, code }: Props) {
   return (
     <>
       <View style={styles.background}></View>
+
       <View style={styles.dataContainer}>
         <GeneralData
           name={articulo.NOMBRE}
           brand={articulo.NMARCA}
-          price={precioSeleccionado.PREC1}
+          price={precioSeleccionado?.PREC1}
           codigo={code}
         />
         {data.articulo.TIPOTALLE === "02" && (

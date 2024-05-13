@@ -1,7 +1,9 @@
+import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Navigation from "./Navigation";
+import Navbar from "./components/Navbar";
 
 export default function App() {
   return (
@@ -11,8 +13,9 @@ export default function App() {
         padding: 15,
       }}
     >
+      <Navbar />
       <Navigation />
-      <StatusBar style="light" backgroundColor="black" />
+      <StatusBar style="dark" backgroundColor="white" />
     </SafeAreaView>
   );
 }

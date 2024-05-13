@@ -38,7 +38,7 @@ export default function GeneralData({ name, brand, price, codigo }: Props) {
               color: "white",
             }}
           >
-            Nombre
+            Descripción
           </Text>
 
           <Text
@@ -72,15 +72,6 @@ export default function GeneralData({ name, brand, price, codigo }: Props) {
       >
         <Text
           style={{
-            fontWeight: "300",
-            fontSize: 16,
-            color: "white",
-          }}
-        >
-          Marca
-        </Text>
-        <Text
-          style={{
             textTransform: "uppercase",
             color: "white",
             fontWeight: "bold",
@@ -100,15 +91,6 @@ export default function GeneralData({ name, brand, price, codigo }: Props) {
           padding: 10,
         }}
       >
-        <Text
-          style={{
-            fontWeight: "300",
-            fontSize: 16,
-            color: "black",
-          }}
-        >
-          Precio
-        </Text>
         <Text
           style={{
             textTransform: "uppercase",
