@@ -10,11 +10,9 @@ import PhoneInput from "../components/PhoneInput";
 import ClientData from "../components/ClientData";
 import ImagesContainer from "../components/ImagesContainer";
 import ProfilePicture from "../components/ProfilePicture";
-import {
-  manipulateAsync,
-  ActionResize,
-  SaveFormat,
-} from "expo-image-manipulator";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { openDatabaseSync } from "expo-sqlite/next";
 
 export default function HomeScreen() {
   const [facing, setFacing] = useState("back");
@@ -55,15 +53,19 @@ export default function HomeScreen() {
   }
 
   const __takePicture = async () => {
-    const photo = await cameraRef.takePictureAsync();
-    const resizedImage = await manipulateAsync(
-      photo.uri,
-      [{ resize: { width: 400, height: 300 } }],
-      { compress: 1, format: SaveFormat.JPEG }
-    );
+    const photo = await cameraRef.takePictureAsync({
+      quality: 1,
+      width: 300,
+      height: 400,
+      exif: false,
+    });
+    const resizedImage = await manipulateAsync(photo.uri, [], {
+      compress: 1,
+      format: SaveFormat.JPEG,
+    });
     setCapturedImages((prevImages) => ({
       ...prevImages,
-      [currentItem]: resizedImage.uri, // Almacenar solo la URI de la imagen redimensionada
+      [currentItem]: resizedImage.uri,
     }));
     setShowCamera(false);
   };
@@ -96,6 +98,9 @@ export default function HomeScreen() {
       funcion: () => setCurrentItem("Boleta Servicio 2"),
     },
   ];
+
+  const expo = openDatabaseSync("clients.db");
+  const db = drizzle(expo);
 
   return (
     <>

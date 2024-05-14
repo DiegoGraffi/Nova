@@ -12,7 +12,7 @@ export default function ClientListItem({ client }) {
       <View className="flex-col p-[10px] w-[70%]">
         <Text className="text-[16px]">{client}</Text>
         <TouchableOpacity
-          className="bg-blue-500 rounded-[5px] p-[15px] justify-center items-center 
+          className="bg-[#3f74ff] rounded-[5px] p-[15px] justify-center items-center 
 				mt-[15px]"
           onPress={() => navigation.navigate("Home")}
         >

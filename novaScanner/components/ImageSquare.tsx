@@ -14,7 +14,7 @@ export default function ImageSquare({
       {capturedImages[item.name] ? (
         <Image
           source={{ uri: capturedImages[item.name] }}
-          className="w-[100%] h-[100%] rounded-[5px]"
+          className="w-[100%] h-[100%] aspect-[4/3] rounded-[5px]"
         />
       ) : (
         <View className="flex-col justify-center items-center gap-[10px]">

@@ -10,8 +10,8 @@ export default function ViewImageModal({ fullImageUri, handleCloseImage }) {
       <View className="flex-1 justify-center items-center p-[15px]">
         <Image
           source={{ uri: fullImageUri }}
-          className="w-[100%] h-[100%] rounded-[10px]"
-          resizeMode="contain"
+          className="w-[400px] h-[300px] rounded-[10px] overflow-hidden"
+          resizeMode="cover"
         />
 
         <TouchableOpacity
