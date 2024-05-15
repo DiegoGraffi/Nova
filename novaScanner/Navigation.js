@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 // Screens
 import HomeScreen from "./screens/HomeScreen";
-import USerListScreen from "./screens/UserListScreen";
+import UserListScreen from "./screens/UserListScreen";
 import PhoneScreen from "./screens/PhoneScreen";
 
 // Icons
@@ -38,13 +38,13 @@ function TabGroup() {
     <Tab.Navigator
       screenOptions={() => ({
         tabBarShowLabel: true,
-        tabBarActiveTintColor: "#005ce7",
+        tabBarActiveTintColor: "red",
         headerShown: true,
       })}
     >
       <Tab.Screen
         name="Listado de Clientes"
-        component={USerListScreen}
+        component={UserListScreen}
         options={{
           tabBarIcon: (opts) => <List color={opts.color} size={opts.size} />,
         }}

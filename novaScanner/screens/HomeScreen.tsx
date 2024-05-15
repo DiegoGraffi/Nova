@@ -99,9 +99,6 @@ export default function HomeScreen() {
     },
   ];
 
-  const expo = openDatabaseSync("clients.db");
-  const db = drizzle(expo);
-
   return (
     <>
       <ViewImageModal
