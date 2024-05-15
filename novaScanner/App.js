@@ -1,16 +1,15 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Navigation from "./Navigation";
 import Navbar from "./components/Navbar";
-import { drizzle } from "drizzle-orm/expo-sqlite";
-import { openDatabaseSync } from "expo-sqlite/next";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "./drizzle/migrations";
+import { db } from "./db/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const expo = openDatabaseSync("clients.db");
-const db = drizzle(expo);
+const queryClient = new QueryClient();
 
 export default function App() {
   const { success, error } = useMigrations(db, migrations);
@@ -31,16 +30,18 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView
-      style={styles.container}
-      contentContainerStyle={{
-        padding: 15,
-      }}
-    >
-      <Navbar />
-      <Navigation />
-      <StatusBar style="dark" backgroundColor="white" />
-    </SafeAreaView>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaView
+        style={styles.container}
+        contentContainerStyle={{
+          padding: 15,
+        }}
+      >
+        <Navbar />
+        <Navigation />
+        <StatusBar style="dark" backgroundColor="white" />
+      </SafeAreaView>
+    </QueryClientProvider>
   );
 }
 

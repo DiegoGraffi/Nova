@@ -38,7 +38,7 @@ function TabGroup() {
     <Tab.Navigator
       screenOptions={() => ({
         tabBarShowLabel: true,
-        tabBarActiveTintColor: "red",
+        tabBarActiveTintColor: "#3f74ff",
         headerShown: true,
       })}
     >

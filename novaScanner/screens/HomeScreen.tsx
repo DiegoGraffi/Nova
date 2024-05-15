@@ -11,8 +11,6 @@ import ClientData from "../components/ClientData";
 import ImagesContainer from "../components/ImagesContainer";
 import ProfilePicture from "../components/ProfilePicture";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { drizzle } from "drizzle-orm/expo-sqlite";
-import { openDatabaseSync } from "expo-sqlite/next";
 
 export default function HomeScreen() {
   const [facing, setFacing] = useState("back");
