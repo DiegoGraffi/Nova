@@ -1,16 +1,30 @@
-import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  Button,
+} from "react-native";
 import { useState, useEffect } from "react";
 import { useCameraPermissions } from "expo-camera/next";
 import ImageSquare from "../components/ImageSquare";
 import ViewImageModal from "./ViewImageModal";
 import AppInfo from "../components/AppInfo";
 import CameraScannerView from "./CameraScannerView";
-import Button from "../components/Button";
 import PhoneInput from "../components/PhoneInput";
 import ClientData from "../components/ClientData";
 import ImagesContainer from "../components/ImagesContainer";
 import ProfilePicture from "../components/ProfilePicture";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { db } from "../db/client";
+import { user } from "../db/schema";
+import { useNavigation } from "@react-navigation/native";
+
+async function fetchUsersFromDB() {
+  return await db.select().from(user);
+}
 
 export default function HomeScreen() {
   const [facing, setFacing] = useState("back");
@@ -24,6 +38,7 @@ export default function HomeScreen() {
   const [fullImageUri, setFullImageUri] = useState(null);
   const [cameraMode, setCameraMode] = useState("");
   const [showCamera, setShowCamera] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     requestPermission();
@@ -97,6 +112,25 @@ export default function HomeScreen() {
     },
   ];
 
+  // Base de datos
+
+  const { data } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsersFromDB,
+  });
+
+  const queryClient = useQueryClient();
+
+  const users = data;
+
+  async function handleAddUser() {
+    await db.insert(user).values({ data: scannedData });
+    // la data de users esta vieja, actualiza todos los que dependan del key users
+    queryClient.invalidateQueries({ queryKey: ["users"] });
+    setScannedData("");
+    navigation.navigate("Listado de Clientes");
+  }
+
   return (
     <>
       <ViewImageModal
@@ -139,7 +173,7 @@ export default function HomeScreen() {
               handleCameraMode={handleCameraMode}
             />
 
-            <Button text={"Cargar Cliente"} />
+            <Button title="Cargar cliente" onPress={handleAddUser} />
           </View>
         </ScrollView>
       ) : (
