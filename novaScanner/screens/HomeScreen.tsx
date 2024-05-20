@@ -95,8 +95,6 @@ export default function HomeScreen() {
     setCameraMode(mode);
   };
 
-  console.log(cameraMode);
-
   const items = [
     { name: "Foto Cliente", funcion: () => setCurrentItem("Foto Cliente") },
     { name: "DNI Frente", funcion: () => setCurrentItem("DNI Frente") },
@@ -124,7 +122,15 @@ export default function HomeScreen() {
   const users = data;
 
   async function handleAddUser() {
-    await db.insert(user).values({ data: scannedData });
+    await db.insert(user).values({
+      data: scannedData,
+      foto1: capturedImages["Foto Cliente"],
+      foto2: capturedImages["DNI Frente"],
+      foto3: capturedImages["DNI Reverso"],
+      foto4: capturedImages["Recibo Sueldo"],
+      foto5: capturedImages["Boleta Servicio"],
+      foto6: capturedImages["Boleta Servicio 2"],
+    });
     // la data de users esta vieja, actualiza todos los que dependan del key users
     queryClient.invalidateQueries({ queryKey: ["users"] });
     setScannedData("");

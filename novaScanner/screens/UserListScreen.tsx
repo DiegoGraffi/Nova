@@ -46,6 +46,8 @@ export default function UserList() {
       }
     );
   }
+
+  console.log(users);
   return (
     <ScrollView
       contentContainerStyle={{ padding: 15, backgroundColor: "white" }}
@@ -64,6 +66,12 @@ export default function UserList() {
         return (
           <ClientListItem
             client={user.data}
+            foto1={user.foto1}
+            foto2={user.foto2}
+            foto3={user.foto3}
+            foto4={user.foto4}
+            foto5={user.foto5}
+            foto6={user.foto6}
             key={user.id}
             id={user.id}
             handleDelete={handleDelete}
