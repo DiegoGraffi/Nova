@@ -1,6 +1,8 @@
 CREATE TABLE `user` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`data` text,
+	`dato` text,
+	`codaera` integer,
+	`telefono` integer,
 	`foto1` text,
 	`foto2` text,
 	`foto3` text,

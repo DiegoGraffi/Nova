@@ -1,14 +1,6 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Alert,
-  Button,
-} from "react-native";
+import { ScrollView, View, Alert, Button } from "react-native";
 import { useState, useEffect } from "react";
 import { useCameraPermissions } from "expo-camera/next";
-import ImageSquare from "../components/ImageSquare";
 import ViewImageModal from "./ViewImageModal";
 import AppInfo from "../components/AppInfo";
 import CameraScannerView from "./CameraScannerView";
@@ -21,28 +13,44 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { db } from "../db/client";
 import { user } from "../db/schema";
 import { useNavigation } from "@react-navigation/native";
+import { useStore } from "../utils/store/clientStore";
 
 async function fetchUsersFromDB() {
   return await db.select().from(user);
 }
 
 export default function HomeScreen() {
-  const [facing, setFacing] = useState("back");
+  const {
+    setPermission,
+    facing,
+    scanned,
+    setScanned,
+    scannedData,
+    setScannedData,
+    currentItem,
+    setCurrentItem,
+    prefix,
+    setPrefix,
+    phoneNumber,
+    setPhoneNumber,
+    fullImageUri,
+    setFullImageUri,
+    cameraMode,
+    setCameraMode,
+    showCamera,
+    setShowCamera,
+  } = useStore();
   const [permission, requestPermission] = useCameraPermissions();
-  const [scanned, setScanned] = useState(false);
-  const [scannedData, setScannedData] = useState("");
   const [capturedImages, setCapturedImages] = useState({});
-  const [currentItem, setCurrentItem] = useState("");
-  const [prefix, setPrefix] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [fullImageUri, setFullImageUri] = useState(null);
-  const [cameraMode, setCameraMode] = useState("");
-  const [showCamera, setShowCamera] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
     requestPermission();
   }, []);
+
+  useEffect(() => {
+    setPermission(permission);
+  }, [permission]);
 
   const handleBarCodeScanned = ({ data }) => {
     setScannedData(data);
@@ -58,7 +66,9 @@ export default function HomeScreen() {
   };
 
   function toggleCameraFacing() {
-    setFacing((current) => (current === "back" ? "front" : "back"));
+    useStore.setState((state) => ({
+      facing: state.facing === "back" ? "front" : "back",
+    }));
   }
 
   function toggleCamera() {
@@ -123,7 +133,9 @@ export default function HomeScreen() {
 
   async function handleAddUser() {
     await db.insert(user).values({
-      data: scannedData,
+      dato: scannedData,
+      codaera: parseInt(prefix),
+      telefono: parseInt(phoneNumber),
       foto1: capturedImages["Foto Cliente"],
       foto2: capturedImages["DNI Frente"],
       foto3: capturedImages["DNI Reverso"],
@@ -134,9 +146,13 @@ export default function HomeScreen() {
     // la data de users esta vieja, actualiza todos los que dependan del key users
     queryClient.invalidateQueries({ queryKey: ["users"] });
     setScannedData("");
+    setPrefix("");
+    setPhoneNumber("");
+    setCapturedImages({});
     navigation.navigate("Listado de Clientes");
   }
 
+  console.log(prefix, phoneNumber);
   return (
     <>
       <ViewImageModal

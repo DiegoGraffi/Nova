@@ -13,9 +13,9 @@ export default function PhoneInput({ setPrefix, setPhoneNumber }) {
       <View className="flex-row items-center w-full mt-[15px] relative">
         <TouchableOpacity
           onPress={() => navigation.navigate("Telefono")}
-          className="py-[15px] rounded-[5px] w-full flex-row space-x-[10px] justify-center items-center bg-[#3F75FF] "
+          className="py-[15px] w-full flex-row space-x-[10px] justify-center items-center bg-[#3F75FF] "
         >
-          <Phone size={20} color="#fff" />
+          <Phone size={20} color="#fff" strokeWidth={1.5} />
           <Text className="text-[18px] text-white">Ingresar telefono</Text>
         </TouchableOpacity>
       </View>

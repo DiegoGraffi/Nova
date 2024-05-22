@@ -10,7 +10,7 @@ export default function ImageSquare({
   handleCameraMode,
 }) {
   return (
-    <View className="justify-center items-center rounded-[5px] overflow-hidden h-[250px] w-[150px] mr-[15px] bg-[#EFF1F4]">
+    <View className="justify-center items-center overflow-hidden h-[250px] w-[150px] mr-[15px] bg-[#EFF1F4]">
       {capturedImages[item.name] ? (
         <Image
           source={{ uri: capturedImages[item.name] }}

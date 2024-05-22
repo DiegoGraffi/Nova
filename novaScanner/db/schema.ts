@@ -2,7 +2,9 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  data: text("data"),
+  dato: text("dato"),
+  codaera: integer("codaera"),
+  telefono: integer("telefono"),
   foto1: text("foto1"),
   foto2: text("foto2"),
   foto3: text("foto3"),

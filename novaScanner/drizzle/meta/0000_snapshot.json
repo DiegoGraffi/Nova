@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "5e884521-13a3-4690-af07-a1781dcf63aa",
+  "id": "a0dc59bc-62fc-40e1-8896-35fca424c284",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user": {
@@ -14,9 +14,23 @@
           "notNull": true,
           "autoincrement": true
         },
-        "data": {
-          "name": "data",
+        "dato": {
+          "name": "dato",
           "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "codaera": {
+          "name": "codaera",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "telefono": {
+          "name": "telefono",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
