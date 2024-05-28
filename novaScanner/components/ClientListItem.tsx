@@ -31,7 +31,7 @@ export default function ClientListItem({
       </View>
       <View className="flex-col p-[10px] w-[65%] relative">
         <Text className="text-[16px]">{client}</Text>
-        <Text className="text-[16px]">
+        <Text className="text-[16px] text-blue-500">
           {codarea} 15 {telefono}
         </Text>
 

@@ -42,7 +42,7 @@ export default function ClientData({
         )}
 
         {scannedData && (
-          <View className="mb-[10px] w-full space-y-[10px] bg-[#eff1f4] p-[10px] border-[.5px] border-gray-600">
+          <View className="w-full space-y-[10px] bg-[#eff1f4] p-[10px] border-[.5px] border-gray-600">
             <Text className="text-[#3f74ff]">Datos obtenidos</Text>
             <Text className="text-[18px] text-gray-600">{scannedData}</Text>
           </View>
