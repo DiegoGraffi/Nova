@@ -3,7 +3,6 @@ import { Send } from "lucide-react-native";
 
 export default function ViewUserScreen({ route }) {
   const data = route.params.client;
-  console.log(data);
 
   return (
     <ScrollView className="w-full h-full bg-white">
