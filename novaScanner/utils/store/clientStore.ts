@@ -31,6 +31,12 @@ interface StoreState {
 
   showCamera: boolean;
   setShowCamera: (newShowCamera: boolean) => void;
+
+  date: string;
+  setDate: (newCurrentItem: string) => void;
+
+  formValid: boolean;
+  setFormValid: (newFormValid: boolean) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -42,7 +48,6 @@ export const useStore = create<StoreState>((set) => ({
   setScanned: (newScanned) => set({ scanned: newScanned }),
   scannedData: "",
   setScannedData: (newScannedData) => set({ scannedData: newScannedData }),
-
   currentItem: "",
   setCurrentItem: (newCurrentItem) => set({ currentItem: newCurrentItem }),
   prefix: "",
@@ -55,4 +60,8 @@ export const useStore = create<StoreState>((set) => ({
   setCameraMode: (newCameraMode) => set({ cameraMode: newCameraMode }),
   showCamera: false,
   setShowCamera: (newShowCamera) => set({ showCamera: newShowCamera }),
+  date: "",
+  setDate: (newDate) => set({ date: newDate }),
+  formValid: false,
+  setFormValid: (newFormValid) => set({ formValid: newFormValid }),
 }));

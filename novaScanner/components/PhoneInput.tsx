@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useStore } from "../utils/store/clientStore";
 
-export default function PhoneInput({ setPrefix, setPhoneNumber }) {
+export default function PhoneInput() {
   const navigation = useNavigation();
   const { prefix, phoneNumber } = useStore();
 

@@ -4,7 +4,7 @@ import DataItem from "./DataItem";
 
 export default function ClientData({
   scannedData,
-  handleData,
+
   toggleCamera,
   handleCameraMode,
 }) {

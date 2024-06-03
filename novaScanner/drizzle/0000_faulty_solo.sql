@@ -3,6 +3,7 @@ CREATE TABLE `user` (
 	`dato` text,
 	`codaera` integer,
 	`telefono` integer,
+	`fecha` text,
 	`foto1` text,
 	`foto2` text,
 	`foto3` text,

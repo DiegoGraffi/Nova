@@ -11,12 +11,13 @@ export default function CameraScannerView({
   __takePicture,
   toggleCamera,
   cameraMode,
+  cameraRef,
 }) {
   return (
     <Modal style={{ flex: 1 }}>
       {cameraMode === "scanner" ? (
         <CameraView
-          ref={(ref) => (cameraRef = ref)}
+          ref={cameraRef}
           facing={facing}
           style={{ flex: 1, justifyContent: "flex-end" }}
           barcodeScannerSettings={{
@@ -55,7 +56,7 @@ export default function CameraScannerView({
         </CameraView>
       ) : (
         <CameraView
-          ref={(ref) => (cameraRef = ref)}
+          ref={cameraRef}
           facing={facing}
           style={{ flex: 1, justifyContent: "flex-end" }}
         >

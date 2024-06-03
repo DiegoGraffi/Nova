@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "a0dc59bc-62fc-40e1-8896-35fca424c284",
+  "id": "dddde366-d57b-4002-be8a-6ae9ab5e34f0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user": {
@@ -31,6 +31,13 @@
         "telefono": {
           "name": "telefono",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fecha": {
+          "name": "fecha",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

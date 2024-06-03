@@ -49,12 +49,11 @@ export default function UserList() {
     );
   }
 
-  console.log(permission);
   return (
     <ScrollView contentContainerStyle={{ backgroundColor: "white" }}>
-      <View className=" flex-row justify-between items-center p-[15px] border-[.5px] border-gray-600 bg-[#eff1f4] m-[15px]">
-        <Text className="text-[16px] text-gray-600">Cantidad de usuarios:</Text>
-        <Text className="text-[18px] font-semibold text-gray-600">
+      <View className=" flex-row justify-between items-center p-[15px] bg-[#3F75FF] m-[15px]">
+        <Text className="text-[16px] text-white">Cantidad de usuarios:</Text>
+        <Text className="text-[18px] font-semibold text-white">
           {users
             ? users.length == 0
               ? "No hay clientes cargados"
@@ -74,6 +73,7 @@ export default function UserList() {
             foto4={user.foto4}
             foto5={user.foto5}
             foto6={user.foto6}
+            date={user.fecha}
             key={user.id}
             id={user.id}
             handleDelete={handleDelete}

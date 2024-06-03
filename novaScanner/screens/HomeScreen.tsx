@@ -1,5 +1,5 @@
-import { ScrollView, View, Alert, Button } from "react-native";
-import { useState, useEffect } from "react";
+import { ScrollView, View, Alert, Text, TouchableOpacity } from "react-native";
+import { useState, useEffect, useRef } from "react";
 import { useCameraPermissions } from "expo-camera/next";
 import ViewImageModal from "./ViewImageModal";
 import AppInfo from "../components/AppInfo";
@@ -14,12 +14,13 @@ import { db } from "../db/client";
 import { user } from "../db/schema";
 import { useNavigation } from "@react-navigation/native";
 import { useStore } from "../utils/store/clientStore";
+import { UserRoundPlus } from "lucide-react-native";
 
 async function fetchUsersFromDB() {
   return await db.select().from(user);
 }
 
-export default function HomeScreen() {
+export default function HomeScreen({ route }) {
   const {
     setPermission,
     facing,
@@ -39,9 +40,13 @@ export default function HomeScreen() {
     setCameraMode,
     showCamera,
     setShowCamera,
+    date,
+    setDate,
   } = useStore();
   const [permission, requestPermission] = useCameraPermissions();
   const [capturedImages, setCapturedImages] = useState({});
+  const [errors, setErrors] = useState({});
+  const cameraRef = useRef(null);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -76,21 +81,23 @@ export default function HomeScreen() {
   }
 
   const __takePicture = async () => {
-    const photo = await cameraRef.takePictureAsync({
-      quality: 1,
-      width: 300,
-      height: 400,
-      exif: false,
-    });
-    const resizedImage = await manipulateAsync(photo.uri, [], {
-      compress: 1,
-      format: SaveFormat.JPEG,
-    });
-    setCapturedImages((prevImages) => ({
-      ...prevImages,
-      [currentItem]: resizedImage.uri,
-    }));
-    setShowCamera(false);
+    if (cameraRef.current) {
+      const photo = await cameraRef.current.takePictureAsync({
+        quality: 1,
+        width: 300,
+        height: 400,
+        exif: false,
+      });
+      const resizedImage = await manipulateAsync(photo.uri, [], {
+        compress: 1,
+        format: SaveFormat.JPEG,
+      });
+      setCapturedImages((prevImages) => ({
+        ...prevImages,
+        [currentItem]: resizedImage.uri,
+      }));
+      setShowCamera(false);
+    }
   };
 
   const handleOpenImage = (imageUri) => {
@@ -131,28 +138,117 @@ export default function HomeScreen() {
 
   const users = data;
 
-  async function handleAddUser() {
-    await db.insert(user).values({
-      dato: scannedData,
-      codaera: parseInt(prefix),
-      telefono: parseInt(phoneNumber),
-      foto1: capturedImages["Foto Cliente"],
-      foto2: capturedImages["DNI Frente"],
-      foto3: capturedImages["DNI Reverso"],
-      foto4: capturedImages["Recibo Sueldo"],
-      foto5: capturedImages["Boleta Servicio"],
-      foto6: capturedImages["Boleta Servicio 2"],
-    });
-    // la data de users esta vieja, actualiza todos los que dependan del key users
-    queryClient.invalidateQueries({ queryKey: ["users"] });
-    setScannedData("");
-    setPrefix("");
-    setPhoneNumber("");
-    setCapturedImages({});
-    navigation.navigate("Listado de Clientes");
+  function getDate() {
+    const date = new Date();
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    const hour = date.getHours().toString().padStart(2, "0");
+    const minute = date.getMinutes().toString().padStart(2, "0");
+    const second = date.getSeconds().toString().padStart(2, "0");
+
+    const formatedDate = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+    setDate(formatedDate);
+    return formatedDate;
   }
 
-  console.log(prefix, phoneNumber);
+  interface FormErrors {
+    scannedData?: string;
+    prefix?: string;
+    phoneNumber?: string;
+    capturedImages?: string;
+    date?: string;
+  }
+
+  const validateForm = (): FormErrors => {
+    const errorsName: FormErrors = {};
+    if (!scannedData) errorsName.scannedData = "Datos Documento";
+    if (!prefix) errorsName.prefix = "Prefijo";
+    if (!phoneNumber) errorsName.phoneNumber = "Número de teléfono";
+
+    const requiredImages = [
+      "Foto Cliente",
+      "DNI Frente",
+      "DNI Reverso",
+      "Recibo Sueldo",
+      "Boleta Servicio",
+      "Boleta Servicio 2",
+    ];
+
+    const missingImages = requiredImages.filter(
+      (image) => !capturedImages[image]
+    );
+    if (missingImages.length > 0)
+      errorsName.capturedImages = `Faltan las siguientes imágenes:\n${missingImages.join(
+        ", "
+      )}`;
+
+    return errorsName;
+  };
+
+  async function handleAddUser() {
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      const errorMessage = Object.values(errors).join("\n");
+      Alert.alert(
+        "Datos Faltantes",
+        `${errorMessage}\n¿Deseas enviar la información de todas maneras?`,
+        [
+          {
+            text: "Cancelar",
+            style: "cancel",
+          },
+          {
+            text: "Enviar",
+            onPress: async () => {
+              const date = getDate();
+              await db.insert(user).values({
+                dato: scannedData,
+                codaera: parseInt(prefix),
+                telefono: parseInt(phoneNumber),
+                fecha: date,
+                foto1: capturedImages["Foto Cliente"],
+                foto2: capturedImages["DNI Frente"],
+                foto3: capturedImages["DNI Reverso"],
+                foto4: capturedImages["Recibo Sueldo"],
+                foto5: capturedImages["Boleta Servicio"],
+                foto6: capturedImages["Boleta Servicio 2"],
+              });
+              queryClient.invalidateQueries({ queryKey: ["users"] });
+              setScannedData("");
+              setPrefix("");
+              setPhoneNumber("");
+              setCapturedImages({});
+              setDate("");
+              navigation.navigate("Lista de Clientes");
+            },
+          },
+        ]
+      );
+    } else {
+      const date = getDate();
+      await db.insert(user).values({
+        dato: scannedData,
+        codaera: parseInt(prefix),
+        telefono: parseInt(phoneNumber),
+        fecha: date,
+        foto1: capturedImages["Foto Cliente"],
+        foto2: capturedImages["DNI Frente"],
+        foto3: capturedImages["DNI Reverso"],
+        foto4: capturedImages["Recibo Sueldo"],
+        foto5: capturedImages["Boleta Servicio"],
+        foto6: capturedImages["Boleta Servicio 2"],
+      });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      setScannedData("");
+      setPrefix("");
+      setPhoneNumber("");
+      setCapturedImages({});
+      setDate("");
+      navigation.navigate("Lista de Clientes");
+    }
+  }
+
   return (
     <>
       <ViewImageModal
@@ -195,7 +291,15 @@ export default function HomeScreen() {
               handleCameraMode={handleCameraMode}
             />
 
-            <Button title="Cargar cliente" onPress={handleAddUser} />
+            <TouchableOpacity
+              className="py-[15px] w-full flex-row space-x-[10px] justify-center items-center bg-[#3F75FF] "
+              onPress={handleAddUser}
+            >
+              <UserRoundPlus color={"#EFF1F4"} strokeWidth={1.5} />
+              <Text className="text-white text-[18px] font-light">
+                Cargar Cliente
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       ) : (
@@ -207,6 +311,7 @@ export default function HomeScreen() {
           toggleCamera={toggleCamera}
           toggleCameraFacing={toggleCameraFacing}
           cameraMode={cameraMode}
+          cameraRef={cameraRef}
         />
       )}
     </>

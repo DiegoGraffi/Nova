@@ -5,6 +5,7 @@ export const user = sqliteTable("user", {
   dato: text("dato"),
   codaera: integer("codaera"),
   telefono: integer("telefono"),
+  fecha: text("fecha"),
   foto1: text("foto1"),
   foto2: text("foto2"),
   foto3: text("foto3"),

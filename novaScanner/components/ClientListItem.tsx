@@ -1,6 +1,25 @@
 import { useNavigation } from "@react-navigation/native";
 import { Text, TouchableOpacity, View, Image, Button } from "react-native";
 import { Trash2 } from "lucide-react-native";
+import { useStore } from "../utils/store/clientStore";
+
+type ClientProps = {
+  client: string;
+  id: number;
+  codarea: number;
+  telefono: number;
+  foto1: string;
+  foto2: string;
+  foto3: string;
+  foto4: string;
+  foto5: string;
+  foto6: string;
+  date: string;
+};
+
+type ClientListItemProps = ClientProps & {
+  handleDelete: (id: number) => void;
+};
 
 export default function ClientListItem({
   client,
@@ -14,7 +33,8 @@ export default function ClientListItem({
   foto4,
   foto5,
   foto6,
-}) {
+  date,
+}: ClientListItemProps) {
   const navigation = useNavigation();
 
   return (
@@ -31,6 +51,7 @@ export default function ClientListItem({
       </View>
       <View className="flex-col p-[10px] w-[65%] relative">
         <Text className="text-[16px]">{client}</Text>
+        <Text className="text-black">{date}</Text>
         <Text className="text-[16px] text-blue-500">
           {codarea} 15 {telefono}
         </Text>
@@ -38,7 +59,22 @@ export default function ClientListItem({
         <View className="mt-[15px] flex flex-row justify-between relative">
           <TouchableOpacity
             className="border-[.5px] border-gray-600 p-[15px] justify-center items-center w-[70%]"
-            onPress={() => navigation.navigate("Home")}
+            onPress={() =>
+              navigation.navigate("Detalle Cliente", {
+                client: {
+                  client,
+                  codarea,
+                  telefono,
+                  foto1,
+                  foto2,
+                  foto3,
+                  foto4,
+                  foto5,
+                  foto6,
+                  date,
+                },
+              })
+            }
           >
             <Text className="text-[16px] font-normal text-[#3f74ff]">
               Ver Cliente
