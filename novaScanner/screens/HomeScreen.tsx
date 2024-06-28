@@ -114,9 +114,9 @@ export default function HomeScreen({ route }) {
   const cameraRef = useRef(null);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    requestPermission();
-  }, []);
+  // useEffect(() => {
+  //   requestPermission();
+  // }, []);
 
   useEffect(() => {
     setPermission(permission);

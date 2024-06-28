@@ -1,6 +1,10 @@
 import { ScrollView, Button, Alert, Text, View } from "react-native";
 import ClientListItem from "../components/ClientListItem";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { db } from "../db/client";
 import { user } from "../db/schema";
 import { eq } from "drizzle-orm";
@@ -11,17 +15,12 @@ async function fetchUsersFromDB() {
 }
 
 export default function UserList() {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: fetchUsersFromDB,
   });
-  console.log(data);
 
   const queryClient = useQueryClient();
-  const users = data
-    ?.slice()
-    .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-
   async function handleDelete(clientId) {
     Alert.alert(
       "¿Deseas eliminar al cliente?",
@@ -49,6 +48,14 @@ export default function UserList() {
       }
     );
   }
+
+  if (!data) {
+    return <Text>Cargando</Text>;
+  }
+
+  const users = data?.sort(
+    (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+  );
 
   return (
     <ScrollView contentContainerStyle={{ backgroundColor: "white" }}>

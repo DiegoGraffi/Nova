@@ -16,7 +16,11 @@ import { useCameraPermissions } from "expo-camera/next";
 import { db } from "../db/client";
 import { user } from "../db/schema";
 import { useNavigation } from "@react-navigation/native";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { eq } from "drizzle-orm";
 
 async function fetchUserFromDB(id: number) {
@@ -120,8 +124,8 @@ export default function ViewUserScreen({ route }) {
   const navigation = useNavigation();
   const userId = route.params.userId;
 
-  const { data } = useQuery({
-    queryKey: ["users"],
+  const { data } = useSuspenseQuery({
+    queryKey: ["users", userId],
     queryFn: () => fetchUserFromDB(userId),
   });
 
@@ -142,7 +146,7 @@ export default function ViewUserScreen({ route }) {
               idopera: generateIdOpera("1099"),
               fecha: getDate(),
               idusuario: "1099",
-              dato: data.client,
+              dato: data.dato,
               codarea: data.codarea,
               telefono: data.telefono,
               foto1: data.foto1,
@@ -169,9 +173,9 @@ export default function ViewUserScreen({ route }) {
       )}
 
       <View className="w-full p-[15px] space-y-[15px]">
-        {data.client && (
+        {data.dato && (
           <View className="w-full p-[15px] border-[.5px] border-gray-600 bg-[#eff1f4]">
-            <Text className="text-center">{data.client}</Text>
+            <Text className="text-center">{data.dato}</Text>
           </View>
         )}
 
@@ -184,7 +188,7 @@ export default function ViewUserScreen({ route }) {
         )}
         <View className="w-full p-[15px] border-[.5px] border-gray-600 bg-[#eff1f4]">
           <Text className="text-black text-center text-[16px]">
-            {data.date}
+            {data.fecha}
           </Text>
         </View>
         {data.foto2 || data.foto3 || data.foto4 || data.foto5 || data.foto6 ? (
@@ -269,7 +273,7 @@ export default function ViewUserScreen({ route }) {
         <TouchableOpacity
           className="py-[15px] w-full flex-row space-x-[10px] justify-center items-center bg-[#3F75FF] rounded-md"
           onPress={() =>
-            navigation.navigate("Editar Cliente", { client: data })
+            navigation.navigate("Editar Cliente", { userId: data.id })
           }
         >
           <Pencil color={"#EFF1F4"} strokeWidth={1.5} />

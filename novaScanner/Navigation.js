@@ -1,4 +1,4 @@
-import { Button, View } from "react-native";
+import { Button, Text, View } from "react-native";
 
 // Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -15,6 +15,7 @@ import ConfigScreen from "./screens/ConfigScreen.tsx";
 
 // Icons
 import { UserRoundPlus, BookUser, Settings } from "lucide-react-native";
+import { Suspense } from "react";
 
 // Stack Telefono
 const Stack = createStackNavigator();
@@ -44,11 +45,7 @@ function StackUserList() {
     <Stack.Navigator>
       <Stack.Screen name="Clientes" component={UserListScreen} />
       <Stack.Screen name="Detalle Cliente" component={UserViewScreen} />
-      <Stack.Screen
-        name="Editar Cliente"
-        component={EditClientScreen}
-        initialParams={{ client: {} }}
-      />
+      <Stack.Screen name="Editar Cliente" component={EditClientScreen} />
     </Stack.Navigator>
   );
 }
