@@ -1,0 +1,28 @@
+{
+  "cli": {
+    "version": ">= 7.3.0",
+    "requireCommit": true
+  },
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
+      }
+    },
+    "production": {
+      "channel": "production"
+    },
+    "development": {
+      "developmentClient": true,
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
+      }
+    }
+  },
+
+  "submit": {
+    "production": {}
+  }
+}
