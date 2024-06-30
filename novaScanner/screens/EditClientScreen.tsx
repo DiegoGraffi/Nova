@@ -13,6 +13,7 @@ import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useStore } from "../utils/store/clientStore.ts";
 import { eq } from "drizzle-orm";
 import { user } from "../db/schema";
+import { Save } from "lucide-react-native";
 
 export default function EditClientWrapper(props: any) {
   return (
@@ -38,6 +39,7 @@ export function EditClientScreen({ route }) {
     queryFn: () => fetchUser(userId),
   });
 
+  console.log(client);
   const [phone, setPhone] = useState(client.telefono);
   const [prefix, setPrefix] = useState(client.codarea);
 
@@ -53,23 +55,39 @@ export function EditClientScreen({ route }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 15 }}>
-      <View>
-        <Text>Prefijo</Text>
+    <ScrollView
+      contentContainerStyle={{
+        padding: 15,
+        backgroundColor: "white",
+      }}
+    >
+      
+      <Text>Telefono</Text>
+      <View className="flex-row items-center w-full mt-[15px] relative">
         <TextInput
+          className="w-[20%] p-[10px] bg-[#EFF1F4] pl-[10px] text-[24px] h-full border-[.5px] border-gray-600 rounded-md"
+          keyboardType="numeric"
+          value={prefix}
           value={prefix.toString()}
-          onChangeText={(v) => setPrefix(parseInt(v))}
+          onChangeText={(v) => setPrefix(v)}
         />
-      </View>
-      <View>
-        <Text>Número de teléfono</Text>
+        <Text className="w-[20%] text-[24px] text-center">15</Text>
         <TextInput
+          className="w-[60%] p-[10px] bg-[#EFF1F4] pl-[10px] text-[24px] h-full border-[.5px] border-gray-600 rounded-md"
+          keyboardType="numeric"
           value={phone.toString()}
-          onChangeText={(text) => setPhone(parseInt(text))}
+          onChangeText={(text) => setPhone(text)}
         />
       </View>
-      <TouchableOpacity onPress={handleSave}>
-        <Text>Guardar Cambios</Text>
+      <TouchableOpacity
+        className="py-[15px] w-full flex-row space-x-[10px] justify-center items-center bg-[#3F75FF] rounded-md mt-[15px]"
+        onPress={handleSave}
+      >
+        <Save color={"#EFF1F4"} strokeWidth={1.5} />
+
+        <Text className="text-white text-[18px] font-light">
+          Guardar Cambios
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
